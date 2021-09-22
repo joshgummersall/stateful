@@ -1,22 +1,11 @@
 import "./App.css";
 import logo from "./logo.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { thunkAction } from "./redux";
-import { useCallback } from "react";
+import { ReduxButton } from './ReduxButton';
+import { RecoilButton } from './RecoilButton';
+import { RecoilText } from './RecoilText';
+import { ReduxText } from './ReduxText';
 
 function App(props) {
-  const state = useSelector((state) => {
-    return {};
-  });
-
-  const dispatch = useDispatch();
-
-  const onPushAppState = useCallback(() => {
-    dispatch(thunkAction(10));
-  }, [dispatch]);
-
-  console.log("render", { state, onPushAppState });
-
   return (
     <div className="App">
       <header className="App-header">
@@ -24,23 +13,13 @@ function App(props) {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <button onClick={onPushAppState}>Push app state</button>
+        <ReduxButton text="Redux" />
+        <RecoilButton text="Recoil" />
+        <RecoilText />
+        <ReduxText />
       </header>
     </div>
   );
 }
 
 export default App;
-
-// export default connect(
-//   (state) => {
-//     return { appState: state.appState };
-//   },
-//   (dispatch) => {
-//     return {
-//       onPushAppState: () => {
-//         dispatch(pushAppState(10))
-//       }
-//     };
-//   }
-// )(App);

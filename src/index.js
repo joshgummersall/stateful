@@ -8,10 +8,15 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 
+// Recoil specifics
+import { RecoilRoot } from 'recoil';
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
