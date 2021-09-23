@@ -48,7 +48,6 @@ export default function RecoiledRedux() {
   const dispatch = useDispatch();
 
   const reduxUser = useSelector(selectUserState);
-  console.log(reduxUser);
 
   const [recoilUser, setRecoilUser] = useRecoiledRedux(
     "user",
