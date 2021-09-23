@@ -16,14 +16,17 @@ const appState = (state = [], action) => {
   }
 };
 
-const TOUCH_USER_STATE = "TOUCH_USER_STATE";
+const UPDATE_USER_STATE = "UPDATE_USER_STATE";
 
-export const touchUserState = () => ({ type: TOUCH_USER_STATE });
+export const updateUserState = (value) => ({
+  type: UPDATE_USER_STATE,
+  payload: value,
+});
 
 export const userState = (state = {}, action) => {
   switch (action.type) {
-    case TOUCH_USER_STATE:
-      return { ...state };
+    case UPDATE_USER_STATE:
+      return action.payload;
 
     default:
       return state;
@@ -42,12 +45,12 @@ export const counterState = (state = 0, action) => {
     default:
       return state;
   }
-}
+};
 
 export const thunkAction = (data) => async (dispatch) => {
   dispatch(pushAppState(data));
   await new Promise((resolve) => setTimeout(resolve, 2000));
-  dispatch(touchUserState());
+  dispatch(updateUserState({ name: "Alex" }));
 };
 
 export const store = configureStore({
