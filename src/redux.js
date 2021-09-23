@@ -23,7 +23,7 @@ export const updateUserState = (value) => ({
   payload: value,
 });
 
-export const userState = (state = {}, action) => {
+export const userState = (state = { name: "Josh" }, action) => {
   switch (action.type) {
     case UPDATE_USER_STATE:
       return action.payload;
@@ -45,12 +45,6 @@ export const counterState = (state = 0, action) => {
     default:
       return state;
   }
-};
-
-export const thunkAction = (data) => async (dispatch) => {
-  dispatch(pushAppState(data));
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  dispatch(updateUserState({ name: "Alex" }));
 };
 
 export const store = configureStore({

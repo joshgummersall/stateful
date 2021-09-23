@@ -1,14 +1,16 @@
 import { atom, useRecoilState } from "recoil";
+import { updateUserState } from "./redux";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
+import { useRenderCount } from "./renderCount";
 
 export const useRecoiledRedux = (
   recoilKey,
   reduxSelector,
   reduxActionCreator
 ) => {
-  const dispatch = useDispatch();
   const reduxState = useSelector(reduxSelector);
+  const dispatch = useDispatch();
 
   // store atom in ref to persist across renders
   const ref = useRef();
@@ -37,3 +39,40 @@ export const useRecoiledRedux = (
   // Satisfy recoil hook signature
   return [recoilValue, setRecoilValue];
 };
+
+const selectUserState = (state) => state.userState;
+
+export default function RecoiledRedux() {
+  const count = useRenderCount("RecoiledRedux");
+
+  const dispatch = useDispatch();
+
+  const reduxUser = useSelector(selectUserState);
+
+  const [recoilUser, setRecoilUser] = useRecoiledRedux(
+    "userState",
+    selectUserState,
+    updateUserState
+  );
+
+  return (
+    <div>
+      <h1>useRecoiledRedux</h1>
+      <p>
+        Redux name:{" "}
+        <input
+          onChange={(e) => dispatch(updateUserState({ name: e.target.value }))}
+          value={reduxUser?.name ?? ""}
+        />
+      </p>
+      <p>
+        Recoil name:{" "}
+        <input
+          onChange={(e) => setRecoilUser({ name: e.target.value })}
+          value={recoilUser?.name ?? ""}
+        />
+      </p>
+      <p>Renders: {count.current}</p>
+    </div>
+  );
+}

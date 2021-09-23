@@ -1,14 +1,14 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { counterState } from './recoil';
+import React from "react";
+import { counterState } from "./recoil";
+import { useRecoilCallback } from "recoil";
+import { useRenderCount } from "./renderCount";
 
 export function RecoilButton(props) {
-  const { text } = props;
-  const [counter, setCounter] = useRecoilState(counterState);
+  useRenderCount("RecoilButton");
 
-  const clickHandler = () => setCounter(counter + 1);
-  return (
-    <button onClick={clickHandler}>{text}</button>
-  )
+  const onClick = useRecoilCallback(({ set }) => () => {
+    set(counterState, (val) => val + 1);
+  });
+
+  return <button onClick={onClick}>{props.children}</button>;
 }
-
