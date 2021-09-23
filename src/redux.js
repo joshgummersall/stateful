@@ -1,52 +1,35 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
-const PUSH_APP_STATE = "PUSH_APP_STATE";
-
-export const pushAppState = (data) => ({
-  type: PUSH_APP_STATE,
-  payload: { data },
+const app = createSlice({
+  name: "app",
+  initialState: [],
+  reducers: {
+    push: (state, action) => [...state, action.payload],
+  },
 });
 
-const appState = (state = [], action) => {
-  switch (action.type) {
-    case PUSH_APP_STATE:
-      return [...state, action.payload.data];
-    default:
-      return state;
-  }
-};
+export const { push: pushAppState } = app.actions;
 
-const UPDATE_USER_STATE = "UPDATE_USER_STATE";
-
-export const updateUserState = (value) => ({
-  type: UPDATE_USER_STATE,
-  payload: value,
+const counter = createSlice({
+  name: "counter",
+  initialState: 0,
+  reducers: {
+    increment: (state) => state + 1,
+  },
 });
 
-export const userState = (state = { name: "Josh" }, action) => {
-  switch (action.type) {
-    case UPDATE_USER_STATE:
-      return action.payload;
+export const { increment: incrementCounter } = counter.actions;
 
-    default:
-      return state;
-  }
-};
+const user = createSlice({
+  name: "user",
+  initialState: { name: "Josh" },
+  reducers: {
+    update: (_, action) => action.payload,
+  },
+});
 
-const INCREMENT_COUNTER = "INCREMENT_COUNTER";
-
-export const incrementCounter = () => ({ type: INCREMENT_COUNTER });
-
-export const counterState = (state = 0, action) => {
-  switch (action.type) {
-    case INCREMENT_COUNTER:
-      return state + 1;
-
-    default:
-      return state;
-  }
-};
+export const { update: updateUser } = user.actions;
 
 export const store = configureStore({
-  reducer: combineReducers({ appState, userState, counterState }),
+  reducer: { app: app.reducer, counter: counter.reducer, user: user.reducer },
 });

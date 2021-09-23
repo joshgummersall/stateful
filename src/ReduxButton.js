@@ -4,7 +4,6 @@ import { useRenderCount } from "./renderCount";
 
 export function ReduxButton(props) {
   useRenderCount("ReduxButton");
-
   const dispatch = useDispatch();
 
   return (

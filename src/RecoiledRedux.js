@@ -1,5 +1,5 @@
 import { atom, useRecoilState } from "recoil";
-import { updateUserState } from "./redux";
+import { updateUser } from "./redux";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
 import { useRenderCount } from "./renderCount";
@@ -40,7 +40,7 @@ export const useRecoiledRedux = (
   return [recoilValue, setRecoilValue];
 };
 
-const selectUserState = (state) => state.userState;
+const selectUserState = (state) => state.user;
 
 export default function RecoiledRedux() {
   const count = useRenderCount("RecoiledRedux");
@@ -48,11 +48,12 @@ export default function RecoiledRedux() {
   const dispatch = useDispatch();
 
   const reduxUser = useSelector(selectUserState);
+  console.log(reduxUser);
 
   const [recoilUser, setRecoilUser] = useRecoiledRedux(
-    "userState",
+    "user",
     selectUserState,
-    updateUserState
+    updateUser
   );
 
   return (
@@ -61,7 +62,7 @@ export default function RecoiledRedux() {
       <p>
         Redux name:{" "}
         <input
-          onChange={(e) => dispatch(updateUserState({ name: e.target.value }))}
+          onChange={(e) => dispatch(updateUser({ name: e.target.value }))}
           value={reduxUser?.name ?? ""}
         />
       </p>

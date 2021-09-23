@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
 import { useRenderCount } from "./renderCount";
+import { useSelector } from "react-redux";
 
 export function ReduxText() {
   useRenderCount("ReduxText");
 
-  const state = useSelector((state) => state.counterState);
+  const counter = useSelector((state) => state.counter);
 
-  return <span>Redux counter value: {state}</span>;
+  return <span>Redux counter value: {counter}</span>;
 }
